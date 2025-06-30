@@ -9,14 +9,12 @@ const Heat = () => {
     const [isDark, setIsDark] = useState(
       window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches
     );
-
     useEffect(() => {
       const media = window.matchMedia('(prefers-color-scheme: dark)');
       const listener = (e: MediaQueryListEvent) => setIsDark(e.matches);
       media.addEventListener('change', listener);
       return () => media.removeEventListener('change', listener);
     }, []);
-
     useEffect(() => {
         let p5Instance: p5;
         import("p5").then((p5mod) => {
@@ -38,7 +36,9 @@ const Heat = () => {
                     // Set background and box color based on mode
                     if (isDark) {
                       p.background(34); // dark bg
-                      p.fill(220);      // light box
+                      let c = p.color(220);
+                      c.setAlpha(100);
+                      p.fill(c);      // light box
                     } else {
                       p.background(255); // light bg
                       let c = p.color('#646cff');
