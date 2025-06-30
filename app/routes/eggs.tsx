@@ -1,12 +1,4 @@
-import type { Route } from "./+types/home";
 import { NavLink } from "react-router-dom";
-
-export function meta({}: Route.MetaArgs) {
-  return [
-    { title: "eggs" },
-    { name: "a flower in a garden of forking paths", content: "this is an audio recording I took on my phone of my friend Zander playing some music in Chicago" },
-  ];
-}
 
 export default function Eggs() {
  return(

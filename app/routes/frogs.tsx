@@ -1,12 +1,4 @@
-import type { Route } from "./+types/home";
 import { NavLink } from "react-router-dom";
-
-export function meta({}: Route.MetaArgs) {
-  return [
-    { title: "frogs" },
-    { name: "a flower in a garden of forking paths", content: "this is a video of some frogs that my friend Dean sent me – well, he sent me the video, not the frogs" },
-  ];
-}
 
 export default function Frogs() {
     return(

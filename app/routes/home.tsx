@@ -1,12 +1,4 @@
-import type { Route } from "./+types/home";
 import { NavLink } from "react-router-dom";
-
-export function meta({}: Route.MetaArgs) {
-  return [
-    { title: "the glass bead game" },
-    { name: "a garden of forking paths", content: "welcome to the glass bead game" },
-  ];
-}
 
 export default function Home() {
   return (

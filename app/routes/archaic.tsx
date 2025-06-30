@@ -1,12 +1,4 @@
-import type { Route } from "./+types/home";
 import { NavLink } from "react-router-dom";
-
-export function meta({}: Route.MetaArgs) {
-  return [
-    { title: "archaic" },
-    { name: "a flower in a garden of forking paths", content: "you must change your life" },
-  ];
-}
 
 export default function Archaic() {
  return(
