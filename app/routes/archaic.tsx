@@ -12,7 +12,7 @@ export default function Archaic() {
  return(
     <div className="flex items-center justify-center min-h-screen p-4 md:p-20">
       <div>
-          <h1 className="text-lg md:text-4xl lg:text-6xl">ARCHAIC TORSO OF APOLLO</h1>
+          <h2 className="text-lg md:text-4xl lg:text-6xl">ARCHAIC TORSO OF APOLLO</h2>
           <h4>Rainer Maria Rilke</h4>
           <br />
           We cannot know his legendary <NavLink to="/">head</NavLink> <br />
