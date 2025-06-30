@@ -4,7 +4,6 @@ import {
   Outlet,
 } from "react-router-dom";
 import * as React from 'react'
-import type { Route } from "./+types/root";
 import Grid from "./components/monomeGrid";
 import GridLight from "./components/gridLight";
 import "./app.css";
