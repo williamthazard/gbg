@@ -48,7 +48,7 @@ export function Layout() {
   }, []);
   return (
     <div className="min-h-screen w-full">
-      <div className="fixed bottom-4 right-4 md:bottom-20 md:right-20">
+      <div className="fixed bottom-2 right-2 md:bottom-20 md:right-20">
         <button 
           className="opacity-75"
           onClick={
