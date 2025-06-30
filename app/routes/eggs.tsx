@@ -1,5 +1,5 @@
 import type { Route } from "./+types/home";
-import { NavLink } from "react-router";
+import { NavLink } from "react-router-dom";
 
 export function meta({}: Route.MetaArgs) {
   return [
@@ -10,24 +10,26 @@ export function meta({}: Route.MetaArgs) {
 
 export default function Eggs() {
  return(
-    <div className="m-auto">
-        <div className="flex justify-center">
-            <audio controls src="../public/zander.wav" autoPlay loop></audio><br />
-        </div>
-        <br />
-        <div className="flex justify-center">
-            <h1>
-            <NavLink to="/">the </NavLink> 
-            <NavLink to="/frogs">eggs </NavLink> 
-            <NavLink to="/dash">of </NavLink> 
-            <NavLink to="/archaic">time </NavLink>
-            </h1>
-        </div>
-        <br />
-        <div className="flex justify-center">
-            <h5>
-            music by Zander Raymond
-            </h5>
+    <div className="flex items-center justify-center min-h-screen p-4 md:p-20">
+        <div>
+            <div className="flex justify-center">
+                <audio controls src={`${import.meta.env.BASE_URL}zander.wav`} autoPlay loop></audio><br />
+            </div>
+            <br />
+            <div className="flex justify-center">
+                <h1 className="text-center text-lg md:text-4xl lg:text-6xl">
+                <NavLink to="/">the</NavLink>&nbsp;
+                <NavLink to="/frogs">eggs</NavLink>&nbsp;
+                <NavLink to="/dash">of</NavLink>&nbsp;
+                <NavLink to="/archaic">time</NavLink>&nbsp;
+                </h1>
+            </div>
+            <br />
+            <div className="flex justify-center">
+                <h5>
+                music by Zander Raymond
+                </h5>
+            </div>
         </div>
     </div>
     )   

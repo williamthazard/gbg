@@ -1,0 +1,19 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>the glass bead game</title>
+    <link rel="icon" type="image/x-icon" href="/favicon.ico">
+  </head>
+  <body>
+    <script>
+      if (!location.hash || location.hash === "#") {
+        location.replace(location.pathname + location.search + "#/");
+      }
+    </script>
+    <div id="root"></div>
+    <!-- Vite injects JS bundle here -->
+    <script type="module" src="/app/main.tsx"></script>
+  </body>
+</html>

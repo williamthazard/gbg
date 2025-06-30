@@ -1,11 +1,8 @@
 import {
+  useRouteError,
   isRouteErrorResponse,
-  Links,
-  Meta,
   Outlet,
-  Scripts,
-  ScrollRestoration,
-} from "react-router";
+} from "react-router-dom";
 import * as React from 'react'
 import type { Route } from "./+types/root";
 import Grid from "./components/monomeGrid";
@@ -31,67 +28,44 @@ import "./app.css";
 //     Grid.led(x,y,z*15) //momentary
 // })
 
-export const links: Route.LinksFunction = () => [
-  { rel: "preconnect", href: "https://fonts.googleapis.com" },
-  {
-    rel: "preconnect",
-    href: "https://fonts.gstatic.com",
-    crossOrigin: "anonymous",
-  },
-  {
-    rel: "stylesheet",
-    href: "https://fonts.googleapis.com/css2?family=Inter:ital,opsz,wght@0,14..32,100..900;1,14..32,100..900&display=swap",
-  },
-];
-
-export function Layout({ children }: { children: React.ReactNode }) {
+export function Layout() {
   const [connected, setConnected] = React.useState(false);
   const [text, setText] = React.useState("Connect");
   const [dirty, setDirty] = React.useState(false);
-  Grid.connected(() => {
-    console.log("monome grid connected via webserial");
-    setConnected(true);
-    setText("Disconnect");
-    setDirty(true);
-  });
-  Grid.removed(() => {
-    console.log("monome grid disconnected from webserial");
-    setConnected(false);
-    setText("Connect");
-    setDirty(false);
-  })
+  React.useEffect(() => {
+    Grid.connected(() => {
+      console.log("monome grid connected");
+      setConnected(true);
+      setText("Disconnect");
+      setDirty(true);
+    });
+    Grid.removed(() => {
+      console.log("monome grid disconnected");
+      setConnected(false);
+      setText("Connect");
+      setDirty(false);
+    });
+  }, []);
   return (
-    <html lang="en">
-      <head>
-        <meta charSet="utf-8" />
-        <meta name="viewport" content="width=device-width, initial-scale=1" />
-        <Meta />
-        <Links />
-      </head>
-      <body>
-        {children}
-        <ScrollRestoration />
-        <Scripts />
-        <div className="fixed bottom-20 right-20">
-          <button onClick={
-            connected ? () => {
-              Grid.remove(); 
-            } : () => {
-              Grid.connect(); 
-            }
-          }>{text} Grid</button>
-        </div>
-        <GridLight connection={connected} dirty={dirty}/>
-      </body>
-    </html>
+    <div className="min-h-screen w-full">
+      <div className="fixed bottom-4 right-4 md:bottom-20 md:right-20">
+        <button 
+          className="opacity-75"
+          onClick={
+            connected ? () => { Grid.remove(); } : () => { Grid.connect(); }
+          }
+        >
+          {text} Grid
+        </button>
+      </div>
+      <GridLight connection={connected} dirty={dirty} setDirty={setDirty}/>
+      <Outlet />
+    </div>
   );
 }
 
-export default function App() {
-  return <Outlet />;
-}
-
-export function ErrorBoundary({ error }: Route.ErrorBoundaryProps) {
+export function ErrorBoundary() {
+  const error = useRouteError();
   let message = "Oops!";
   let details = "An unexpected error occurred.";
   let stack: string | undefined;

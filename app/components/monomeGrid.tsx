@@ -39,44 +39,45 @@ if (typeof window !== 'undefined') {
 }
 
 const Connect = async () => {
-  const usbVendorId = 1155; //monome usb vendor ID
   try {
-    port = await navigator.serial.requestPort({ filters: [{ usbVendorId }] });
+    port = await navigator.serial.requestPort();
     // Connect to port or add it to the list of available ports
     // Wait for the serial port to open.
     await port.open({ baudRate: 115200 }); //monome grid baudRate
+    
+    // Check if port is valid and has readable/writable streams
+    if (!port || !port.readable || !port.writable) {
+      throw new Error("Port is not properly initialized");
+    }
+    
     // callback function for successful device connection
     if (connectedFunc) connectedFunc();
+    
     // Listen to data coming from the serial device.
-    if (port && port.readable && port.writable) {
-      while (port.readable) {
-        reader = port.readable.getReader();
-        //console.log('serial reader setup complete');
-        writer = port.writable.getWriter();
-        //console.log('serial writer setup complete');
-        try {
-          while (true) {
-            if (!reader) break;
-            const { value, done } = await reader.read();
-            if (done) {
-              // Allow the serial port to be closed later.
-              break
-            }
-            // value is a Uint8Array.
-            if (value && value.length > 0) {
-              // Log basic info about the received data
-              // const hexPreview = Array.from(value.slice(0, Math.min(value.length, 10))).map(b => 
-              //   `0x${b.toString(16).padStart(2, '0')}`).join(' ') + (value.length > 10 ? '...' : '');
-              // console.log(`Received ${value.length} bytes: ${hexPreview}`);
-              processIncomingData(value);
-            }
-            serialActive = true;
-          }
-        } catch (e) {
-          // The user didn't select a device
+    reader = port.readable.getReader();
+    writer = port.writable.getWriter();
+    
+    try {
+      while (true) {
+        if (!reader) break;
+        const { value, done } = await reader.read();
+        if (done) {
+          // Allow the serial port to be closed later.
+          break
         }
-        //console.log('closing serial read loop');
+        // value is a Uint8Array.
+        if (value && value.length > 0) {
+          // Log basic info about the received data
+          // const hexPreview = Array.from(value.slice(0, Math.min(value.length, 10))).map(b => 
+          //   `0x${b.toString(16).padStart(2, '0')}`).join(' ') + (value.length > 10 ? '...' : '');
+          // console.log(`Received ${value.length} bytes: ${hexPreview}`);
+          processIncomingData(value);
+        }
+        serialActive = true;
       }
+    } catch (e) {
+      // The user didn't select a device
+      console.error("Error reading from serial port:", e);
     }
   } catch(err) {
     console.log(err)
@@ -261,12 +262,11 @@ async function Disconnect() {
     try {
       // Clear the grid before disconnecting
       await clearGrid();
-      if (removedFunc) removedFunc();
       writer.releaseLock();
     } catch (error) {
       console.error('Error releasing writer:', error);
     }
-    // writer = null;
+    writer = null;
   }
   
   // Release the reader
@@ -274,10 +274,10 @@ async function Disconnect() {
       try {
         reader.cancel();
         reader.releaseLock();
-        // reader = null;
       } catch (error) {
         console.error('Error canceling reader:', error);
       }
+      reader = null;
   }
   
   // Close the port
@@ -289,6 +289,9 @@ async function Disconnect() {
       }
       port = null;
   }
+  
+  // Call removed callback after cleanup
+  if (removedFunc) removedFunc();
 }
 
 // Query device ID
