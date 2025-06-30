@@ -34,17 +34,15 @@ const Heat = () => {
                 }
                 p.draw = () => {
                     // Set background and box color based on mode
+                    let c = p.color(220); // light box
                     if (isDark) {
                       p.background(34); // dark bg
-                      let c = p.color(220);
-                      c.setAlpha(100);
-                      p.fill(c);      // light box
                     } else {
                       p.background(255); // light bg
-                      let c = p.color('#646cff');
-                      c.setAlpha(100);
-                      p.fill(c);        // dark box
+                      c = p.color('#646cff'); // dark box    
                     }
+                    c.setAlpha(125);
+                    p.fill(c); 
                     p.rotateX(p.frameCount * 0.01);
                     p.rotateY(p.frameCount * 0.01);
                     p.noStroke();
