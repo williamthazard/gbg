@@ -15,7 +15,7 @@ export default function Archaic() {
           the curved breast could not <NavLink to="/frogs">dazzle</NavLink> you so, nor could <br />
           a smile run through the placid hips and thighs <br />
           to that dark center where procreation flared. <br /><br />
-          Otherwise this stone would seem defaced <br />
+          Otherwise this <NavLink to="/heat">stone</NavLink> would seem defaced <br />
           beneath the translucent cascade of the shoulders <br />
           and would not glisten like a wild beast's fur: <br /><br />
           would not, from all the borders of itself, <br />
